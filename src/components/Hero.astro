@@ -1,0 +1,20 @@
+---
+import { t, basePath, type Lang } from '../i18n/ui';
+import Locket from './Locket.astro';
+const { lang } = Astro.props as { lang: Lang };
+const tr = t(lang);
+const base = basePath(lang);
+---
+<section class="relative overflow-hidden bg-gradient-to-b from-ivory via-linen/70 to-ivory">
+  <div class="mx-auto grid max-w-7xl items-center gap-4 px-5 pb-10 pt-6 md:min-h-[44rem] md:grid-cols-12 md:gap-8 md:px-8 md:py-16">
+    <div class="md:col-span-6">
+      <h1 class="rise d1 max-w-xl font-serif text-5xl font-light leading-[1.04] md:text-7xl">{tr('hero.title')}</h1>
+      <p class="rise d2 mt-7 max-w-md leading-relaxed text-stone">{tr('hero.text')}</p>
+      <div class="rise d3 mt-10 flex flex-wrap items-center gap-x-8 gap-y-4">
+        <a href={`${base}/#collections`} class="bg-ink px-8 py-3.5 text-sm text-ivory transition-colors hover:bg-gold-deep">{tr('hero.cta')}</a>
+        <a href={`${base}/#couples`} class="text-sm underline decoration-champagne underline-offset-8 transition-colors hover:text-gold-deep">{tr('hero.cta2')}</a>
+      </div>
+    </div>
+    <div class="order-first md:order-last md:col-span-6"><Locket lang={lang} /></div>
+  </div>
+</section>

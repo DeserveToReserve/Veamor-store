@@ -1,0 +1,78 @@
+---
+import { t, basePath, type Lang } from '../i18n/ui';
+import { s } from '../i18n/shop';
+import ProductArt from './ProductArt';
+import CartButton from './CartButton';
+const { lang } = Astro.props as { lang: Lang };
+const tr = t(lang);
+const base = basePath(lang);
+const sh = s(lang);
+const other: Lang = lang === 'bg' ? 'en' : 'bg';
+const path = Astro.url.pathname;
+const switchHref = lang === 'bg' ? `/en${path}` : path.replace(/^\/en/, '') || '/';
+const items = [
+  { href: `${base}/#jewelry`, label: tr('nav.jewelry'), art: 'locket' },
+  { href: `${base}/#couples`, label: tr('nav.couples'), art: 'bracelets' },
+  { href: `${base}/#family`, label: tr('nav.family'), art: 'pair' },
+] as const;
+const links = [
+  { href: `${base}/#jewelry`, label: tr('nav.jewelry') },
+  { href: `${base}/#couples`, label: tr('nav.couples') },
+  { href: `${base}/#family`, label: tr('nav.family') },
+];
+---
+<header class="sticky top-0 z-40 border-b border-champagne/40 bg-ivory/90 backdrop-blur">
+  <div class="mx-auto grid h-16 max-w-7xl grid-cols-3 items-center px-5 md:h-20 md:px-8">
+    <div class="relative hidden justify-self-start md:block" data-dropdown>
+      <button id="dd-btn" type="button" aria-expanded="false" aria-controls="dd-panel" class="group flex items-center gap-2 text-sm transition-colors hover:text-gold-deep">
+        {sh('menu.title')}
+        <svg class="h-3 w-3 transition-transform duration-300 group-aria-expanded:rotate-180" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M2 4.5l4 4 4-4" /></svg>
+      </button>
+      <div id="dd-panel" hidden class="menu-in absolute left-0 top-full z-50 mt-7 w-72 border border-champagne/40 bg-ivory p-2 shadow-[0_18px_40px_-20px_rgba(138,106,47,.35)]">
+        <ul>
+          {items.map((i) => (
+            <li><a href={i.href} class="flex items-center gap-4 px-4 py-3 transition-colors hover:bg-linen">
+              <ProductArt kind={i.art} className="h-9 w-9 shrink-0 text-gold-deep" /><span class="font-serif text-lg">{i.label}</span>
+            </a></li>
+          ))}
+        </ul>
+      </div>
+    </div>
+    <button id="menu-toggle" type="button" class="justify-self-start md:hidden" aria-expanded="false" aria-controls="mobile-menu" aria-label={tr('nav.menu')}>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h18M3 16h18" /></svg>
+    </button>
+
+    <a href={`${base}/`} class="justify-self-center" aria-label="Veamor">
+      <img src="/logo-header.webp" alt="Veamor" width="1000" height="376" class="h-11 w-auto md:h-16" decoding="async" />
+    </a>
+
+    <div class="flex items-center gap-5 justify-self-end">
+      <a href={switchHref} hreflang={other} lang={other} class="text-sm text-stone transition-colors hover:text-gold-deep">{other === 'bg' ? 'BG' : 'EN'}</a>
+      <CartButton client:load lang={lang} />
+    </div>
+  </div>
+
+  <nav id="mobile-menu" hidden class="border-t border-champagne/40 bg-ivory px-5 py-6 md:hidden" aria-label="Mobile">
+    <ul class="flex flex-col gap-5">
+      {links.map((l) => <li><a href={l.href} class="font-serif text-2xl">{l.label}</a></li>)}
+    </ul>
+  </nav>
+</header>
+
+<script>
+  const btn = document.getElementById('menu-toggle');
+  const menu = document.getElementById('mobile-menu');
+  btn?.addEventListener('click', () => {
+    const open = btn.getAttribute('aria-expanded') === 'true';
+    btn.setAttribute('aria-expanded', String(!open));
+    menu?.toggleAttribute('hidden', open);
+  });
+
+  const ddBtn = document.getElementById('dd-btn');
+  const ddPanel = document.getElementById('dd-panel');
+  const setDd = (open: boolean) => { ddBtn?.setAttribute('aria-expanded', String(open)); ddPanel?.toggleAttribute('hidden', !open); };
+  ddBtn?.addEventListener('click', () => setDd(ddBtn.getAttribute('aria-expanded') !== 'true'));
+  document.addEventListener('click', (e) => { if (!(e.target as Element).closest('[data-dropdown]')) setDd(false); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { setDd(false); ddBtn?.focus(); } });
+  ddPanel?.addEventListener('click', () => setDd(false));
+</script>

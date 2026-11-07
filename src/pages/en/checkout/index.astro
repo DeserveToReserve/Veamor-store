@@ -1,0 +1,12 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import CheckoutForm from '../../../components/CheckoutForm';
+import { c } from '../../../i18n/checkout';
+const t = c('en');
+---
+<BaseLayout lang="en" title={`${t('title')} – Veamor`} noindex>
+  <div class="mx-auto max-w-7xl px-5 py-10 md:px-8 md:py-16">
+    <h1 class="font-serif text-4xl font-light md:text-6xl">{t('title')}</h1>
+    <CheckoutForm client:load lang="en" />
+  </div>
+</BaseLayout>

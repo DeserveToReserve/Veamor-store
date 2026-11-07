@@ -1,0 +1,75 @@
+---
+import type { Lang } from '../i18n/ui';
+import { h } from '../i18n/home';
+import Icon from './Icon.astro';
+const { variant, lang } = Astro.props as { variant: 'top' | 'bottom'; lang: Lang };
+const tr = h(lang);
+const top = [{ i: 'truck', k: 'bar.express' }, { i: 'cash', k: 'bar.cod' }, { i: 'box', k: 'bar.eu' }] as const;
+const bottom = [{ i: 'shield', k: 'bar.safe' }, { i: 'refund', k: 'bar.refund' }, { i: 'truck', k: 'bar.express' }, { i: 'cash', k: 'bar.cod2' }] as const;
+---
+{variant === 'top' ? (
+  <div class="bg-linen" data-topbar>
+    <div class="mx-auto max-w-7xl px-5 md:px-8">
+      <ul class="hidden grid-cols-3 items-center gap-2 py-2.5 text-[13px] md:grid">
+        {top.map((x) => (
+          <li class="flex items-center justify-center gap-2 first:justify-start last:justify-end">
+            <Icon name={x.i} class="h-5 w-5 shrink-0 text-gold-deep" /><span>{tr(x.k)}</span>
+          </li>
+        ))}
+      </ul>
+
+      <div class="md:hidden">
+        <ul class="grid grid-cols-3">
+          {top.map((x) => (
+            <li class="flex justify-center">
+              <button type="button" class="tb-btn flex h-11 w-16 items-center justify-center border-b border-transparent text-gold-deep transition-colors aria-expanded:border-gold-deep" aria-expanded="false" aria-controls="tb-panel" aria-label={tr(x.k)}>
+                <Icon name={x.i} class="h-6 w-6" />
+              </button>
+            </li>
+          ))}
+        </ul>
+        <div id="tb-panel" class="tb-panel" data-open="false">
+          <div><p class="tb-text py-2.5 text-center text-xs" aria-live="polite"></p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+) : (
+  <div class="bg-[#f1e6e1]">
+    <ul class="mx-auto grid max-w-7xl grid-cols-2 gap-x-6 gap-y-8 px-5 py-10 md:grid-cols-4 md:px-8">
+      {bottom.map((x) => (
+        <li class="flex items-center gap-4">
+          <Icon name={x.i} class="h-10 w-10 shrink-0 text-ink" /><span class="text-sm leading-snug">{tr(x.k)}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+)}
+
+<style>
+  /* Height animates open/closed (grid 0fr -> 1fr), no layout jump. */
+  .tb-panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .3s ease; }
+  .tb-panel[data-open="true"] { grid-template-rows: 1fr; }
+  .tb-panel > div { overflow: hidden; }
+  @media (prefers-reduced-motion: reduce) { .tb-panel { transition: none; } }
+</style>
+
+<script>
+  const bar = document.querySelector<HTMLElement>('[data-topbar]');
+  if (bar) {
+    const btns = [...bar.querySelectorAll<HTMLButtonElement>('.tb-btn')];
+    const panel = bar.querySelector<HTMLElement>('.tb-panel')!;
+    const text = bar.querySelector<HTMLElement>('.tb-text')!;
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const close = () => { panel.dataset.open = 'false'; btns.forEach((b) => b.setAttribute('aria-expanded', 'false')); };
+
+    btns.forEach((b) => b.addEventListener('click', () => {
+      if (b.getAttribute('aria-expanded') === 'true') return close();
+      btns.forEach((x) => x.setAttribute('aria-expanded', String(x === b)));
+      text.textContent = b.getAttribute('aria-label');
+      panel.dataset.open = 'true';
+      if (!reduce) text.animate([{ opacity: 0, transform: 'translateY(-6px)' }, { opacity: 1, transform: 'none' }], { duration: 280, easing: 'ease-out' });
+    }));
+    document.addEventListener('click', (e) => { if (!bar.contains(e.target as Node)) close(); });
+  }
+</script>

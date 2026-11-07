@@ -1,0 +1,7 @@
+# Copy to .dev.vars for `npm run build && npm run cf:dev`
+SITE_URL=http://localhost:8788
+STRIPE_SECRET_KEY=sk_test_xxx
+STRIPE_WEBHOOK_SECRET=whsec_xxx
+TELEGRAM_BOT_TOKEN=123456:xxx
+TELEGRAM_CHAT_ID=123456789
+TELEGRAM_WEBHOOK_SECRET=some_long_random_string

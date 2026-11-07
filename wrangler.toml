@@ -1,0 +1,13 @@
+name = "veamor"
+pages_build_output_dir = "dist"
+compatibility_date = "2026-11-01"
+
+[vars]
+SITE_URL = "https://veamor.example" # TODO: real domain, no trailing slash
+
+# Orders and customer photos. Create with: npx wrangler r2 bucket create veamor-orders
+[[r2_buckets]]
+binding = "ORDERS"
+bucket_name = "veamor-orders"
+
+# Secrets (never commit): npx wrangler pages secret put STRIPE_SECRET_KEY / STRIPE_WEBHOOK_SECRET

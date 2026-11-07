@@ -1,0 +1,39 @@
+---
+import { t, basePath, type Lang } from '../i18n/ui';
+import { s } from '../i18n/shop';
+import type { Product } from '../data/products';
+import ProductBuy from './ProductBuy';
+import ProductArt from './ProductArt';
+import { products } from '../data/products';
+import { euro } from '../lib/format';
+import { h } from '../i18n/home';
+const { lang, product } = Astro.props as { lang: Lang; product: Product };
+const base = basePath(lang); const nav = t(lang); const tr = s(lang);
+const others = products.filter((p) => p.slug !== product.slug).slice(0, 3);
+const cat = { jewelry: nav('nav.jewelry'), couples: nav('nav.couples'), family: nav('nav.family') }[product.category];
+---
+<div class="mx-auto max-w-7xl px-5 py-8 md:px-8 md:py-12">
+  <nav aria-label="Breadcrumb" class="mb-8 text-sm text-stone">
+    <ol class="flex flex-wrap gap-x-2">
+      <li><a href={`${base}/`} class="hover:text-gold-deep">{tr('pdp.home')}</a></li><li aria-hidden="true">/</li>
+      <li><a href={`${base}/#${product.category}`} class="hover:text-gold-deep">{cat}</a></li><li aria-hidden="true">/</li>
+      <li aria-current="page" class="text-ink">{product.name[lang]}</li>
+    </ol>
+  </nav>
+  <ProductBuy client:load lang={lang} product={product} />
+
+  <section class="mt-24 border-t border-champagne/50 pt-14">
+    <h2 class="font-serif text-3xl font-light md:text-4xl">{h(lang)('rel.title')}</h2>
+    <ul class="mt-8 grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-3 md:gap-x-8">
+      {others.map((p) => (
+        <li><a href={`${base}/product/${p.slug}/`} class="group block">
+          <div class="relative aspect-[4/5] bg-gradient-to-b from-linen to-champagne/40">
+            <ProductArt kind={p.art} className="absolute inset-0 m-auto h-3/5 w-3/5 text-gold-deep transition-transform duration-700 group-hover:scale-105" />
+          </div>
+          <h3 class="mt-4 font-serif text-xl leading-snug">{p.name[lang]}</h3>
+          <p class="mt-1 text-sm text-stone">{euro(p.price, lang)}</p>
+        </a></li>
+      ))}
+    </ul>
+  </section>
+</div>

@@ -1,0 +1,11 @@
+---
+import { products } from '../../../data/products';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ProductPage from '../../../components/ProductPage.astro';
+
+export function getStaticPaths() {
+  return products.map((product) => ({ params: { slug: product.slug }, props: { product } }));
+}
+const { product } = Astro.props;
+---
+<BaseLayout lang="en" title={`${product.name.en} – Veamor`}><ProductPage lang="en" product={product} /></BaseLayout>

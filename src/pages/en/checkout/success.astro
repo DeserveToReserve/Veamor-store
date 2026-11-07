@@ -1,0 +1,24 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ProductArt from '../../../components/ProductArt';
+import { c } from '../../../i18n/checkout';
+const t = c('en');
+---
+<BaseLayout lang="en" title={`${t('ok.title')} – Veamor`} noindex>
+  <section class="mx-auto max-w-2xl px-5 py-24 text-center">
+    <ProductArt kind="locket" className="mx-auto h-28 w-28 text-gold-deep" />
+    <h1 class="mt-8 font-serif text-4xl font-light md:text-5xl">{t('ok.title')}</h1>
+    <p class="mt-5 text-stone">{t('ok.text')}</p>
+    <p id="ref-wrap" class="mt-6 hidden text-sm text-stone">{t('ok.ref')}: <span id="ref"></span></p>
+    <a href="/en/" class="mt-10 inline-block bg-ink px-8 py-3.5 text-sm text-ivory transition-colors hover:bg-gold-deep">{t('ok.home')}</a>
+  </section>
+</BaseLayout>
+<script>
+  import { useCart } from '../../../lib/cart';
+  const o = new URLSearchParams(location.search).get('o') ?? '';
+  if (/^[0-9a-f-]{36}$/i.test(o)) {
+    useCart.getState().clear();
+    document.getElementById('ref')!.textContent = o.slice(0, 8).toUpperCase();
+    document.getElementById('ref-wrap')?.classList.remove('hidden');
+  }
+</script>

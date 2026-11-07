@@ -1,0 +1,54 @@
+import type { Lang } from './ui';
+
+// Trust-bar claims (delivery, guarantee, EU warehouse) are placeholders - confirm before launch.
+export const copy = {
+  bg: {
+    'bar.express': 'Експресна доставка', 'bar.cod': 'Плащане с наложен платеж', 'bar.eu': 'Склад в ЕС',
+    'bar.safe': '100% безопасно пазаруване', 'bar.refund': '90 дни гаранция за връщане на пари', 'bar.cod2': 'Възможност за плащане с наложен платеж',
+    'occ.title': 'За всеки повод',
+    'occ.1': 'Годишнина', 'occ.2': 'Рожден ден', 'occ.3': 'Свети Валентин', 'occ.4': 'За мама', 'occ.5': 'Просто така',
+    'spot.title': 'Една снимка, скрита близо до сърцето',
+    'spot.text': 'Медальонът „Сърце“ се отваря на две и пази най-личното ти изображение. Затваря се с едно щракване и остава твоя тайна.',
+    'spot.1': 'Отваря се и побира снимка', 'spot.2': 'Стоманен или златист цвят', 'spot.3': 'Верижка с топчета',
+    'spot.cta': 'Виж медальона',
+    'how.title': 'Как работи',
+    'how.1.t': 'Избери подарък', 'how.1.d': 'Медальон, гривни или колиета – за двама или за цялото семейство.',
+    'how.2.t': 'Добави снимката си', 'how.2.d': 'Качваш я във формата за поръчка, когато е нужна.',
+    'how.3.t': 'Получи го подарен', 'how.3.d': 'Подаръкът пристига в кутийка, готов за връчване.',
+    'quote': 'Най-ценните подаръци са тези, в които има спомен.',
+    'faq.title': 'Често задавани въпроси',
+    'faq.1.q': 'Как да добавя снимка към медальона?', 'faq.1.a': 'Качваш снимката си във формата за поръчка. Препоръчваме ясна снимка с добро осветление.',
+    'faq.2.q': 'Колко време отнема доставката?', 'faq.2.a': 'Доставяме експресно. Точните срокове ще видиш при поръчката.',
+    'faq.3.q': 'Мога ли да върна поръчката?', 'faq.3.a': 'Да. Условията за връщане на пари ще намериш в страницата „Връщане и замяна“.',
+    'faq.4.q': 'Какви са начините на плащане?', 'faq.4.a': 'С карта през Stripe или с наложен платеж.',
+    'rel.title': 'Още подаръци',
+    'cart.title': 'Количка', 'cart.close': 'Затвори', 'cart.empty': 'Количката е празна.', 'cart.continue': 'Разгледай колекциите',
+    'cart.subtotal': 'Междинна сума', 'cart.note': 'Доставката се изчислява при поръчката.', 'cart.checkout': 'Към поръчката', 'cart.remove': 'Премахни',
+  },
+  en: {
+    'bar.express': 'Express delivery', 'bar.cod': 'Cash on delivery', 'bar.eu': 'EU warehouse',
+    'bar.safe': '100% safe shopping', 'bar.refund': '90-day money-back guarantee', 'bar.cod2': 'Cash on delivery available',
+    'occ.title': 'For every occasion',
+    'occ.1': 'Anniversary', 'occ.2': 'Birthday', 'occ.3': 'Valentine’s Day', 'occ.4': 'For mom', 'occ.5': 'Just because',
+    'spot.title': 'One photo, hidden close to your heart',
+    'spot.text': 'The heart locket opens in two to keep your most personal picture. It closes with a click and stays your secret.',
+    'spot.1': 'Opens to hold a photo', 'spot.2': 'Steel or gold color', 'spot.3': 'Ball chain',
+    'spot.cta': 'See the locket',
+    'how.title': 'How it works',
+    'how.1.t': 'Choose a gift', 'how.1.d': 'A locket, bracelets or necklaces – for two or for the whole family.',
+    'how.2.t': 'Add your photo', 'how.2.d': 'Upload it in the order form when it is needed.',
+    'how.3.t': 'Receive it gift-ready', 'how.3.d': 'Your gift arrives in a box, ready to give.',
+    'quote': 'The most treasured gifts are the ones that hold a memory.',
+    'faq.title': 'Frequently asked questions',
+    'faq.1.q': 'How do I add a photo to the locket?', 'faq.1.a': 'You upload your photo in the order form. We recommend a clear, well-lit picture.',
+    'faq.2.q': 'How long does delivery take?', 'faq.2.a': 'We deliver by express shipping. Exact timing is shown at checkout.',
+    'faq.3.q': 'Can I return my order?', 'faq.3.a': 'Yes. Refund conditions are on the “Returns and exchanges” page.',
+    'faq.4.q': 'What payment methods are available?', 'faq.4.a': 'By card through Stripe or cash on delivery.',
+    'rel.title': 'More gifts',
+    'cart.title': 'Cart', 'cart.close': 'Close', 'cart.empty': 'Your cart is empty.', 'cart.continue': 'Explore the collections',
+    'cart.subtotal': 'Subtotal', 'cart.note': 'Delivery is calculated at checkout.', 'cart.checkout': 'Checkout', 'cart.remove': 'Remove',
+  },
+} as const satisfies Record<Lang, Record<string, string>>;
+
+export type HKey = keyof (typeof copy)['bg'];
+export const h = (lang: Lang) => (k: HKey): string => copy[lang][k];
