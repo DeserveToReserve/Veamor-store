@@ -56,6 +56,7 @@ export default function CheckoutForm({ lang }: { lang: Lang }) {
 
   const submit = async (ev: FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
+    const form = ev.currentTarget;
     setFail('');
     const errs = validate(f);
     if (need && !photo) errs.photo = 'photo';
@@ -65,7 +66,7 @@ export default function CheckoutForm({ lang }: { lang: Lang }) {
     setBusy(true);
     try {
       const { token } = await (await fetch('/api/csrf', { credentials: 'same-origin' })).json();
-      const fd = new FormData(ev.currentTarget); // includes the hidden honeypot field
+      const fd = new FormData(form); // includes the hidden honeypot field
       fd.set('consent', f.consent ? 'on' : '');
       fd.set('lang', lang);
       fd.set('lines', JSON.stringify(lines.map(({ slug, metal, qty }) => ({ slug, metal, qty }))));
