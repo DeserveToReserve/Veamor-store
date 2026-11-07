@@ -78,7 +78,7 @@ export default function CheckoutForm({ lang }: { lang: Lang }) {
       if (typeof data.url === 'string' && data.url.startsWith('https://checkout.stripe.com/')) location.assign(data.url);
       else if (typeof data.next === 'string' && data.next.startsWith('/') && !data.next.startsWith('//')) location.assign(data.next);
       else setFail(t('err.server'));
-    } catch { setFail(t('err.server')); } finally { setBusy(false); }
+    } catch (e) { console.error(e); setFail(t('err.server')); } finally { setBusy(false); }
   };
 
   if (mounted && lines.length === 0) {
