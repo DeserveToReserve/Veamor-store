@@ -3,7 +3,7 @@ pages_build_output_dir = "dist"
 compatibility_date = "2026-11-01"
 
 [vars]
-SITE_URL = "https://veamor.example" # TODO: real domain, no trailing slash
+SITE_URL = "https://a5665e34.veamor-store.pages.dev/" # TODO: real domain, no trailing slash
 
 # Orders and customer photos. Create with: npx wrangler r2 bucket create veamor-orders
 [[r2_buckets]]
