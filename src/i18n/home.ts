@@ -5,6 +5,9 @@ export const copy = {
   bg: {
     'bar.express': 'Експресна доставка', 'bar.cod': 'Плащане с наложен платеж', 'bar.eu': 'Склад в ЕС',
     'bar.safe': '100% безопасно пазаруване', 'bar.refund': '90 дни гаранция за връщане на пари', 'bar.cod2': 'Възможност за плащане с наложен платеж',
+    'lock.title': 'Отвори медальона, за да видиш къде се крие споменът',
+    'lock.text': 'Докосни медальона и той ще се отвори на две. Вътре ще поставим твоята снимка – близо до сърцето, само за теб и за човека, на когото го подариш.',
+    'lock.cta': 'Виж медальона',
     'occ.title': 'За всеки повод',
     'occ.1': 'Годишнина', 'occ.2': 'Рожден ден', 'occ.3': 'Свети Валентин', 'occ.4': 'За мама', 'occ.5': 'Просто така',
     'spot.title': 'Една снимка, скрита близо до сърцето',
@@ -28,6 +31,9 @@ export const copy = {
   en: {
     'bar.express': 'Express delivery', 'bar.cod': 'Cash on delivery', 'bar.eu': 'EU warehouse',
     'bar.safe': '100% safe shopping', 'bar.refund': '90-day money-back guarantee', 'bar.cod2': 'Cash on delivery available',
+    'lock.title': 'Open the locket to see where the memory hides',
+    'lock.text': 'Touch the locket and it opens in two. Your photo goes inside – close to the heart, just for you and the person you give it to.',
+    'lock.cta': 'See the locket',
     'occ.title': 'For every occasion',
     'occ.1': 'Anniversary', 'occ.2': 'Birthday', 'occ.3': 'Valentine’s Day', 'occ.4': 'For mom', 'occ.5': 'Just because',
     'spot.title': 'One photo, hidden close to your heart',

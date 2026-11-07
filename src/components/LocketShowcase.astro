@@ -1,0 +1,19 @@
+---
+import { basePath, type Lang } from '../i18n/ui';
+import { h } from '../i18n/home';
+import Locket from './Locket.astro';
+const { lang } = Astro.props as { lang: Lang };
+const tr = h(lang); const base = basePath(lang);
+---
+<section id="locket" class="scroll-mt-24 bg-paper">
+  <div class="mx-auto grid max-w-7xl items-center gap-6 px-5 py-16 md:grid-cols-12 md:gap-8 md:px-8 md:py-24">
+    <div class="md:col-span-5">
+      <h2 class="font-serif text-4xl font-medium leading-[1.08] text-cocoa md:text-5xl">{tr('lock.title')}</h2>
+      <p class="mt-6 max-w-md leading-relaxed text-stone">{tr('lock.text')}</p>
+      <a href={`${base}/product/heart-locket/`} class="mt-9 inline-block bg-cocoa px-8 py-3.5 text-sm text-white transition-colors hover:bg-gold-deep">{tr('lock.cta')}</a>
+    </div>
+    <div class="md:col-span-6 md:col-start-7">
+      <div class="bg-gradient-to-b from-linen/70 to-champagne/30 px-4 md:px-10"><Locket lang={lang} /></div>
+    </div>
+  </div>
+</section>

@@ -1,6 +1,7 @@
 ---
 import type { Lang } from '../i18n/ui';
 import Hero from './Hero.astro';
+import LocketShowcase from './LocketShowcase.astro';
 import Collections from './Collections.astro';
 import Editorial from './Editorial.astro';
 import Faq from './Faq.astro';
@@ -8,6 +9,7 @@ import ProductGrid from './ProductGrid';
 const { lang } = Astro.props as { lang: Lang };
 ---
 <Hero lang={lang} />
+<LocketShowcase lang={lang} />
 <Collections lang={lang} />
 <Editorial lang={lang} part="occasions" />
 <section id="catalog" class="mx-auto max-w-7xl px-5 py-20 md:px-8 md:py-28">

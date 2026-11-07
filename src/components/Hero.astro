@@ -1,20 +1,30 @@
 ---
 import { t, basePath, type Lang } from '../i18n/ui';
-import Locket from './Locket.astro';
 const { lang } = Astro.props as { lang: Lang };
 const tr = t(lang);
 const base = basePath(lang);
+// Заглавието е на два реда: разделяме на последния интервал преди последните две думи.
+const words = tr('hero.title').split(' ');
+const cut = Math.ceil(words.length / 2);
+const line1 = words.slice(0, cut).join(' ');
+const line2 = words.slice(cut).join(' ');
 ---
-<section class="relative overflow-hidden bg-gradient-to-b from-ivory via-linen/70 to-ivory">
-  <div class="mx-auto grid max-w-7xl items-center gap-4 px-5 pb-10 pt-6 md:min-h-[44rem] md:grid-cols-12 md:gap-8 md:px-8 md:py-16">
-    <div class="md:col-span-6">
-      <h1 class="rise d1 max-w-xl font-serif text-5xl font-light leading-[1.04] md:text-7xl">{tr('hero.title')}</h1>
-      <p class="rise d2 mt-7 max-w-md leading-relaxed text-stone">{tr('hero.text')}</p>
-      <div class="rise d3 mt-10 flex flex-wrap items-center gap-x-8 gap-y-4">
-        <a href={`${base}/#collections`} class="bg-ink px-8 py-3.5 text-sm text-ivory transition-colors hover:bg-gold-deep">{tr('hero.cta')}</a>
-        <a href={`${base}/#couples`} class="text-sm underline decoration-champagne underline-offset-8 transition-colors hover:text-gold-deep">{tr('hero.cta2')}</a>
+<section class="relative isolate flex min-h-[37rem] items-start overflow-hidden bg-[#f1e7d6] md:min-h-[clamp(34rem,calc(100svh-8.5rem),54rem)] md:items-center">
+  <!-- Фонът е по-широк от екрана и закотвен вляво: плочата остава под текста, медальонът е отдясно. -->
+  <img src="/hero.webp" alt="" width="2576" height="1093" fetchpriority="high" decoding="async"
+    class="absolute inset-y-0 left-0 -z-10 h-full w-full max-w-none object-cover object-[47%_100%] md:w-[128%] md:object-left" />
+  <div class="absolute inset-0 -z-10 bg-gradient-to-b from-[#f3ebde]/95 via-[#f3ebde]/80 to-transparent to-70% md:bg-gradient-to-r md:from-[#f7f0e5]/60 md:via-[#f7f0e5]/40 md:via-30% md:to-transparent md:to-55%" aria-hidden="true"></div>
+
+  <div class="mx-auto w-full max-w-7xl px-5 pb-16 pt-9 md:px-8 md:py-20">
+    <div class="md:max-w-[52%] md:pl-4">
+      <h1 class="rise d1 font-serif text-[clamp(2.4rem,11vw,3.25rem)] font-medium leading-[1.02] text-cocoa md:text-[clamp(3rem,4.5vw,4.9rem)]">
+        <span class="block">{line1}</span><span class="block">{line2}</span>
+      </h1>
+      <p class="rise d2 mt-6 max-w-[22rem] leading-relaxed text-[#2c2522] md:mt-8 md:max-w-[25rem] md:text-[1.05rem]">{tr('hero.text')}</p>
+      <div class="rise d3 mt-8 flex flex-wrap items-center gap-x-9 gap-y-4 md:mt-10">
+        <a href={`${base}/#collections`} class="bg-cocoa px-8 py-4 text-[0.95rem] text-white transition-colors hover:bg-gold-deep md:px-9 md:py-[1.1rem]">{tr('hero.cta')}</a>
+        <a href={`${base}/#couples`} class="border-b border-cocoa pb-1.5 text-[0.95rem] transition-colors hover:border-gold-deep hover:text-gold-deep">{tr('hero.cta2')}</a>
       </div>
     </div>
-    <div class="order-first md:order-last md:col-span-6"><Locket lang={lang} /></div>
   </div>
 </section>
