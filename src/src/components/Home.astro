@@ -1,0 +1,23 @@
+---
+import type { Lang } from '../i18n/ui';
+import Hero from './Hero.astro';
+import LocketShowcase from './LocketShowcase.astro';
+import Collections from './Collections.astro';
+import Editorial from './Editorial.astro';
+import OccasionStories from './OccasionStories.astro';
+import Faq from './Faq.astro';
+import ProductGrid from './ProductGrid';
+const { lang } = Astro.props as { lang: Lang };
+---
+<Hero lang={lang} />
+<LocketShowcase lang={lang} />
+<Collections lang={lang} />
+<OccasionStories lang={lang} />
+<section id="catalog" class="mx-auto max-w-7xl px-5 py-20 md:px-8 md:py-28">
+  <span id="jewelry" class="block scroll-mt-24"></span><span id="couples" class="block scroll-mt-24"></span><span id="family" class="block scroll-mt-24"></span>
+  <ProductGrid client:load lang={lang} />
+</section>
+<Editorial lang={lang} part="spotlight" />
+<Editorial lang={lang} part="steps" />
+<Editorial lang={lang} part="quote" />
+<Faq lang={lang} />
