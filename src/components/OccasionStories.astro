@@ -1,0 +1,395 @@
+---
+import { basePath, type Lang } from '../i18n/ui';
+import { h } from '../i18n/home';
+import { occasionStories } from '../data/reviews';
+const { lang } = Astro.props as { lang: Lang };
+const tr = h(lang); const base = basePath(lang);
+const occ = ['occ.1', 'occ.2', 'occ.3', 'occ.4', 'occ.5'] as const;
+---
+<section class="occ" data-occ data-open="false" aria-labelledby="occ-title">
+  <!-- Една клонка, използвана като сянка и като воден знак върху листчетата -->
+  <svg class="sr-only" aria-hidden="true" focusable="false">
+    <symbol id="occ-sprig" viewBox="0 0 120 220">
+      <path d="M60 218C57 170 64 110 72 14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" />
+      <g fill="currentColor">
+        <path transform="translate(59 185) rotate(-35)" d="M0 0C10-14 30-16 44-2 30 12 10 14 0 0Z" />
+        <path transform="translate(61 150) rotate(-30) scale(1.05)" d="M0 0C10-14 30-16 44-2 30 12 10 14 0 0Z" />
+        <path transform="translate(64 112) rotate(-38)" d="M0 0C10-14 30-16 44-2 30 12 10 14 0 0Z" />
+        <path transform="translate(67 76) rotate(-32) scale(.9)" d="M0 0C10-14 30-16 44-2 30 12 10 14 0 0Z" />
+        <path transform="translate(70 44) rotate(-40) scale(.8)" d="M0 0C10-14 30-16 44-2 30 12 10 14 0 0Z" />
+        <path transform="translate(58 170) rotate(215)" d="M0 0C10-14 30-16 44-2 30 12 10 14 0 0Z" />
+        <path transform="translate(60 132) rotate(208) scale(1.05)" d="M0 0C10-14 30-16 44-2 30 12 10 14 0 0Z" />
+        <path transform="translate(63 96) rotate(212)" d="M0 0C10-14 30-16 44-2 30 12 10 14 0 0Z" />
+        <path transform="translate(67 62) rotate(205) scale(.9)" d="M0 0C10-14 30-16 44-2 30 12 10 14 0 0Z" />
+        <path transform="translate(71 30) rotate(210) scale(.75)" d="M0 0C10-14 30-16 44-2 30 12 10 14 0 0Z" />
+        <path transform="translate(72 14) rotate(-80) scale(.8)" d="M0 0C10-14 30-16 44-2 30 12 10 14 0 0Z" />
+      </g>
+    </symbol>
+  </svg>
+
+  <!-- Топъл слънчев фон: лъчи, сенки от листа, падащи листенца и искри -->
+  <div class="occ-bg" aria-hidden="true">
+    <div class="occ-beams"></div>
+    <svg class="occ-leaf occ-leaf--bl" viewBox="0 0 120 220"><use href="#occ-sprig" /></svg>
+    <svg class="occ-leaf occ-leaf--tr" viewBox="0 0 120 220"><use href="#occ-sprig" /></svg>
+    <svg class="occ-leaf occ-leaf--bm" viewBox="0 0 120 220"><use href="#occ-sprig" /></svg>
+    <span class="occ-fl occ-fl1"><svg viewBox="0 0 24 14"><path d="M1 7C6-2 16-2 23 7 16 16 6 16 1 7Z" fill="currentColor" /></svg></span>
+    <span class="occ-fl occ-fl2"><svg viewBox="0 0 24 14"><path d="M1 7C6-2 16-2 23 7 16 16 6 16 1 7Z" fill="currentColor" /></svg></span>
+    <span class="occ-fl occ-fl3"><svg viewBox="0 0 24 14"><path d="M1 7C6-2 16-2 23 7 16 16 6 16 1 7Z" fill="currentColor" /></svg></span>
+    <span class="occ-sp occ-sp1"></span><span class="occ-sp occ-sp2"></span><span class="occ-sp occ-sp3"></span>
+    <span class="occ-sp occ-sp4"></span><span class="occ-sp occ-sp5"></span><span class="occ-sp occ-sp6"></span>
+  </div>
+
+  <div class="occ-inner">
+    <div class="occ-head">
+      <h2 id="occ-title" class="occ-title">{tr('occ.title')}</h2>
+      <div class="occ-tabs" role="tablist" aria-label={tr('occ.list')}>
+        {occ.map((o, i) => (
+          <Fragment>
+            {i > 0 && <span class="occ-sep" aria-hidden="true"><svg viewBox="0 0 10 10"><path d="M5 0L10 5L5 10L0 5Z" /></svg></span>}
+            <button type="button" class="occ-tab" role="tab" id={`occ-tab-${i}`} aria-controls={`occ-panel-${i}`}
+              aria-selected="false" data-active="false" tabindex={i === 0 ? 0 : -1}>
+              <span class="occ-glow" aria-hidden="true"></span>
+              <span class="occ-ring" aria-hidden="true"></span>
+              <span class="occ-label">{tr(o)}</span>
+              <span class="occ-line" aria-hidden="true"></span>
+            </button>
+          </Fragment>
+        ))}
+      </div>
+    </div>
+
+    <div class="occ-stage">
+      {occasionStories.map((pair, i) => (
+        <div class="occ-panel" role="tabpanel" id={`occ-panel-${i}`} aria-labelledby={`occ-tab-${i}`} data-active="false">
+          {pair.map((r, n) => (
+            <article class={`occ-story ${n === 0 ? 'occ-story--a' : 'occ-story--b'}`}>
+              <div class="occ-cards">
+                <div class="occ-polaroid">
+                  <div class="occ-pol-in">
+                    <span class="occ-pin occ-pin--pol" aria-hidden="true"></span>
+                    <div class="occ-photo">
+                      <img src={r.photo} alt={`${tr('occ.photo')} – ${tr(occ[i])}`} width="520" height="520" loading="lazy" decoding="async" />
+                      <span class="occ-gloss" aria-hidden="true"></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="occ-notewrap">
+                  <div class="occ-note">
+                    <svg class="occ-mark" viewBox="0 0 120 220" aria-hidden="true"><use href="#occ-sprig" /></svg>
+                    {n === 0
+                      ? <svg class="occ-clip" viewBox="0 0 20 52" aria-hidden="true"><path d="M5 40V11a5 5 0 0 1 10 0v30a8 8 0 0 1-16 0V13" transform="translate(2 4)" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" /></svg>
+                      : <span class="occ-pin occ-pin--note" aria-hidden="true"></span>}
+                    <div class="occ-stars" role="img" aria-label={tr('occ.stars')}>
+                      {[0, 1, 2, 3, 4].map(() => <span class="occ-star" aria-hidden="true">★</span>)}
+                    </div>
+                    <blockquote class="occ-quote">
+                      <p>{r.quote[lang].split(' ').map((w) => <Fragment><span class="occ-w">{w}</span>{' '}</Fragment>)}</p>
+                    </blockquote>
+                    <p class="occ-sign">
+                      <span class="occ-sign-t">{r.name}</span>
+                      <svg viewBox="0 0 100 8" preserveAspectRatio="none" aria-hidden="true"><path d="M1 5C14 1 22 7 36 4s22-3 34 0 20 2 29-1" pathLength="100" /></svg>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <a class="occ-btn" href={`${base}/product/${r.product}/`}>{tr('occ.btn')}</a>
+            </article>
+          ))}
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<noscript>
+  <style>
+    .occ-bg{opacity:1}.occ-head{transform:none!important}.occ-tabs{transform:none!important}
+    .occ-panel:first-child{visibility:visible}
+    .occ-panel:first-child *{transition:none!important}
+  </style>
+</noscript>
+
+<style is:global>
+  /* Ръкописен шрифт (само за листчетата) – самохостван, с кирилица */
+  @font-face { font-family: "Caveat Occ"; font-weight: 600; font-style: normal; font-display: swap;
+    src: url("/fonts/caveat-cyrillic-600-normal.woff2") format("woff2");
+    unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
+  @font-face { font-family: "Caveat Occ"; font-weight: 600; font-style: normal; font-display: swap;
+    src: url("/fonts/caveat-latin-600-normal.woff2") format("woff2");
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122; }
+
+  /* ───────────── Секция ───────────── */
+  .occ { --k: 1; position: relative; isolation: isolate; overflow: hidden;
+    border-block: 1px solid color-mix(in srgb, var(--color-champagne) 40%, transparent); }
+  .occ.occ-ready { --k: .55; }                       /* след първото „представяне“ превключването е по-бързо */
+  .occ-inner { position: relative; max-width: 80rem; margin-inline: auto; padding: 4.5rem 1.25rem 4rem; text-align: center; }
+  @media (min-width: 768px) { .occ-inner { padding: 5.5rem 2rem 5rem; } }
+
+  /* ───────────── Фон ───────────── */
+  .occ-bg { position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: 0; transition: opacity 1.3s ease;
+    background: linear-gradient(158deg, #eadfcc 0%, #dfcdb2 48%, #d6c2a5 100%); }
+  .occ[data-open="true"] .occ-bg { opacity: 1; }
+  .occ-beams { position: absolute; inset: -25%; filter: blur(10px); opacity: .85;
+    background: repeating-linear-gradient(118deg, transparent 0 9rem, rgba(255,250,240,.34) 9rem 15rem, transparent 15rem 26rem); }
+  .occ[data-open="true"] .occ-beams { animation: occ-drift 16s ease-in-out infinite alternate; }
+  @keyframes occ-drift { from { transform: translateX(0); } to { transform: translateX(4rem); } }
+
+  .occ-leaf { position: absolute; color: #6f5836; opacity: .085; transform-origin: 50% 100%; }
+  .occ-leaf--bl { width: 26rem; left: -4rem; bottom: -5rem; rotate: 10deg; }
+  .occ-leaf--tr { width: 21rem; right: -3rem; top: -4rem; rotate: 190deg; }
+  .occ-leaf--bm { width: 14rem; left: 42%; bottom: -6rem; rotate: -8deg; opacity: .09; }
+  .occ[data-open="true"] .occ-leaf--bl { animation: occ-sway 9s ease-in-out infinite alternate; }
+  .occ[data-open="true"] .occ-leaf--tr { animation: occ-sway 11s ease-in-out -3s infinite alternate; }
+  .occ[data-open="true"] .occ-leaf--bm { animation: occ-sway 8s ease-in-out -5s infinite alternate; }
+  @keyframes occ-sway { from { transform: rotate(-1.6deg); } to { transform: rotate(1.6deg); } }
+
+  .occ-fl { position: absolute; top: -1.5rem; width: 1.15rem; color: #b99b62; opacity: 0; }
+  .occ-fl1 { left: 14%; } .occ-fl2 { left: 47%; } .occ-fl3 { left: 80%; }
+  .occ[data-open="true"] .occ-fl1 { animation: occ-fall 17s linear -2s infinite; }
+  .occ[data-open="true"] .occ-fl2 { animation: occ-fall 21s linear -9s infinite; }
+  .occ[data-open="true"] .occ-fl3 { animation: occ-fall 19s linear -5s infinite; }
+  @keyframes occ-fall {
+    0%   { transform: translate3d(0,0,0) rotate(0); opacity: 0; }
+    10%  { opacity: .7; }
+    50%  { transform: translate3d(2.6rem,16rem,0) rotate(120deg); }
+    90%  { opacity: .55; }
+    100% { transform: translate3d(-1rem,34rem,0) rotate(260deg); opacity: 0; }
+  }
+  .occ-sp { position: absolute; width: 3px; height: 3px; border-radius: 50%; background: #e2c987; opacity: 0;
+    box-shadow: 0 0 6px 2px rgba(226,201,135,.6); }
+  .occ-sp1 { left: 22%; top: 30%; } .occ-sp2 { left: 36%; top: 62%; } .occ-sp3 { left: 58%; top: 24%; }
+  .occ-sp4 { left: 71%; top: 55%; } .occ-sp5 { left: 88%; top: 38%; } .occ-sp6 { left: 8%; top: 70%; }
+  .occ[data-open="true"] .occ-sp { animation: occ-twinkle 4.2s ease-in-out infinite; }
+  .occ[data-open="true"] .occ-sp2 { animation-delay: -1.2s; } .occ[data-open="true"] .occ-sp3 { animation-delay: -2.1s; }
+  .occ[data-open="true"] .occ-sp4 { animation-delay: -.6s; }  .occ[data-open="true"] .occ-sp5 { animation-delay: -3s; }
+  .occ[data-open="true"] .occ-sp6 { animation-delay: -1.7s; }
+  @keyframes occ-twinkle { 0%,100% { opacity: 0; transform: scale(.6); } 50% { opacity: .95; transform: scale(1.15); } }
+
+  /* ───────────── Заглавие + поводи ───────────── */
+  .occ-head { transition: transform 1.05s cubic-bezier(.22,.8,.2,1); }
+  .occ-title { font-size: .875rem; color: var(--color-stone); }
+  .occ-tabs { margin-top: 2rem; display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+    gap: .5rem clamp(1rem, 2.3vw, 2.4rem); font-family: var(--font-serif); font-weight: 300;
+    font-size: clamp(1.5rem, 2.2vw, 2.1rem); transform-origin: 50% 0; transition: transform 1.05s cubic-bezier(.22,.8,.2,1); }
+  @media (min-width: 768px) {
+    .occ-js[data-open="false"] .occ-head { transform: translateY(7.5rem); }
+    .occ-js[data-open="false"] .occ-tabs { transform: scale(1.28); }
+  }
+  .occ-sep svg { display: block; width: .5rem; height: .5rem; fill: var(--color-champagne); }
+  .occ[data-open="true"] .occ-sep svg { fill: #b69552; }
+
+  .occ-tab { position: relative; background: none; border: 0; padding: .2em .12em; color: var(--color-ink);
+    font: inherit; cursor: pointer; white-space: nowrap; transition: opacity .55s ease, color .4s ease; }
+  .occ-label { position: relative; z-index: 1; }
+  .occ-line { position: absolute; left: 0; right: 0; bottom: 0; height: 1.5px; transform: scaleX(0); transform-origin: left;
+    background: linear-gradient(90deg, var(--color-gold-deep), var(--color-champagne));
+    transition: transform .65s cubic-bezier(.2,.8,.2,1); }
+  .occ-tab[data-active="true"] .occ-line, .occ-tab:hover .occ-line, .occ-tab:focus-visible .occ-line { transform: scaleX(1); }
+  .occ-tabs:has([data-active="true"]) .occ-tab[data-active="false"] { opacity: .5; }
+  .occ-tabs:has([data-active="true"]) .occ-tab[data-active="false"]:hover,
+  .occ-tabs:has([data-active="true"]) .occ-tab[data-active="false"]:focus-visible { opacity: .95; }
+  .occ-tab:focus-visible { outline: 2px solid var(--color-gold-deep); outline-offset: 4px; }
+
+  .occ-glow { position: absolute; inset: -.5em -.9em; border-radius: 50%; opacity: 0; transform: scale(.6);
+    background: radial-gradient(closest-side, rgba(255,226,150,.55), rgba(255,226,150,0)); transition: opacity .8s ease, transform .9s ease; }
+  .occ-tab[data-active="true"] .occ-glow { opacity: 1; transform: scale(1); }
+  .occ-ring { position: absolute; inset: -.3em -.7em; pointer-events: none; }
+  .occ-ring::before, .occ-ring::after { content: ""; position: absolute; inset: 0; border-radius: 999px;
+    border: 1.5px solid rgba(214,180,100,.9); opacity: 0; transform: scale(.55); }
+  .occ-tab[data-active="true"] .occ-ring::before { animation: occ-ripple 1.8s ease-out .05s 1; }
+  .occ-tab[data-active="true"] .occ-ring::after  { animation: occ-ripple 1.8s ease-out .45s 1; }
+  @keyframes occ-ripple { 0% { opacity: .95; transform: scale(.55); } 100% { opacity: 0; transform: scale(1.7); } }
+
+  /* ───────────── Сцена ───────────── */
+  .occ-stage { display: grid; margin-top: 2.75rem; font-size: 13.5px; }
+  @media (min-width: 768px) { .occ-stage { font-size: clamp(11px, 1.28vw, 17px); min-height: 27em; } }
+  .occ-panel { grid-area: 1 / 1; display: flex; justify-content: center; align-items: flex-start; gap: 3.2em;
+    visibility: hidden; transition: visibility 0s .35s; }
+  .occ-panel[data-active="true"] { visibility: visible; transition-delay: 0s; }
+  @media (max-width: 767px) {
+    .occ-tabs { flex-wrap: nowrap; justify-content: safe center; overflow-x: auto; margin-inline: -1.25rem; padding-inline: 1.25rem;
+      scrollbar-width: none; scroll-snap-type: x proximity; gap: .5rem 1.1rem; font-size: 1.7rem; }
+    .occ-tabs::-webkit-scrollbar { display: none; }
+    .occ-tab { scroll-snap-align: center; }
+    .occ-panel { justify-content: flex-start; overflow-x: auto; scroll-snap-type: x mandatory; gap: 1.5em;
+      margin-inline: -1.25rem; padding: 1.2em 1.25rem 1em; scrollbar-width: none; }
+    .occ-panel::-webkit-scrollbar { display: none; }
+    .occ-story { scroll-snap-align: center; flex: none; }
+  }
+
+  .occ-story { --d: calc(var(--t0) * var(--k)); --t0: .45s; position: relative; display: flex; flex-direction: column; align-items: center; width: 27em; }
+  .occ-story--b { --t0: 1s; }
+  .occ-cards { position: relative; display: flex; align-items: flex-start; justify-content: center; width: 100%; }
+
+  /* Поляроид */
+  .occ-polaroid { position: relative; z-index: 1; width: 13.6em; margin-right: -.6em; transform: rotate(-3.5deg);
+    transition: transform .55s cubic-bezier(.2,.8,.2,1); }
+  .occ-story--b .occ-polaroid { transform: rotate(2deg); }
+  .occ-story:hover .occ-polaroid { transform: rotate(-1.6deg) translateY(-.5em); }
+  .occ-story--b:hover .occ-polaroid { transform: rotate(.8deg) translateY(-.5em); }
+  .occ-pol-in { position: relative; padding: .8em .8em 3.1em; background: linear-gradient(160deg, #fcfbf8, #eeebe3);
+    box-shadow: 0 .9em 1.9em rgba(76,54,30,.28), 0 .15em .35em rgba(76,54,30,.22), inset 0 0 0 1px rgba(255,255,255,.7); }
+  .occ-photo { position: relative; overflow: hidden; aspect-ratio: 1 / 1.02; background: #d9cdb8;
+    box-shadow: inset 0 0 .6em rgba(0,0,0,.25); }
+  .occ-photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .occ-gloss { position: absolute; inset: 0; pointer-events: none; transform: translateX(-130%);
+    background: linear-gradient(115deg, transparent 38%, rgba(255,255,255,.5) 50%, transparent 62%); }
+
+  .occ-pin { position: absolute; z-index: 3; width: 1.3em; height: 1.3em; border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #f6e2a3, #c6a043 58%, #8d6d26);
+    box-shadow: 0 .3em .4em rgba(0,0,0,.35), inset 0 -.1em .15em rgba(0,0,0,.25); }
+  .occ-pin--pol { top: -.55em; left: 42%; }
+  .occ-pin--note { top: -.6em; right: 22%; }
+
+  /* Листче */
+  .occ-notewrap { position: relative; z-index: 2; width: 13.4em; margin-top: .7em; transform: rotate(2.2deg);
+    transition: transform .55s cubic-bezier(.2,.8,.2,1); }
+  .occ-story--b .occ-notewrap { transform: rotate(-1.4deg); }
+  .occ-story:hover .occ-notewrap { transform: rotate(1deg) translateY(-.4em); }
+  .occ-story--b:hover .occ-notewrap { transform: rotate(-.4deg) translateY(-.4em); }
+  .occ-notewrap::before { content: ""; position: absolute; inset: 0; z-index: -1; background: #e3d5bd; transform: translate(.55em,.5em) rotate(2.4deg);
+    box-shadow: 0 .5em 1em rgba(76,54,30,.2); }
+  .occ-note { position: relative; min-height: 17.6em; padding: 2.3em 1.2em 1.5em; text-align: center;
+    background: linear-gradient(165deg, #fdfaf3, #f3ede0); transform-origin: left center;
+    box-shadow: 0 .9em 1.9em rgba(76,54,30,.26), 0 .12em .3em rgba(76,54,30,.2); }
+  .occ-mark { position: absolute; right: .3em; bottom: .3em; width: 4.8em; color: #8a7a55; opacity: .12; pointer-events: none; }
+  .occ-clip { position: absolute; z-index: 3; top: -1.3em; left: .8em; width: 1.25em; height: 3.3em; color: #c5a14a;
+    filter: drop-shadow(0 .15em .15em rgba(0,0,0,.3)); }
+  .occ-stars { position: relative; display: flex; justify-content: center; gap: .12em; font-size: 1.08em; color: #c9a24f; line-height: 1; }
+  .occ-star { display: inline-block; text-shadow: 0 .05em .1em rgba(150,110,30,.3); }
+  .occ-quote { position: relative; margin: .75em 0 .7em; font-family: "Caveat Occ", "Segoe Script", cursive; font-weight: 600;
+    font-size: 1.3em; line-height: 1.2; color: #3a2e25; text-wrap: balance; }
+  .occ-sign { position: relative; display: inline-block; margin: 0; font-family: "Caveat Occ", "Segoe Script", cursive; font-weight: 600;
+    font-size: 1.2em; color: #4a3a2c; }
+  .occ-sign svg { position: absolute; left: -.1em; right: -.1em; bottom: -.25em; width: calc(100% + .2em); height: .3em; overflow: visible; }
+  .occ-sign path { fill: none; stroke: #4a3a2c; stroke-width: 1.3; stroke-linecap: round; vector-effect: non-scaling-stroke;
+    stroke-dasharray: 100; stroke-dashoffset: 0; }
+
+  .occ-btn { margin-top: 2.1em; display: inline-flex; align-items: center; padding: .85em 2em; border-radius: 999px;
+    background: #3a302a; color: #f6efe2; font-family: var(--font-serif); font-size: 1.2em; font-weight: 500; letter-spacing: .01em;
+    box-shadow: 0 .6em 1.2em rgba(58,48,42,.28); transition: background-color .3s, transform .3s, box-shadow .3s; }
+  .occ-btn:hover { background: var(--color-gold-deep); transform: translateY(-2px); box-shadow: 0 .8em 1.4em rgba(58,48,42,.32); }
+  .occ-btn:focus-visible { outline: 2px solid var(--color-gold-deep); outline-offset: 4px; }
+
+  /* ───────────── Хореография (само при активен JS) ─────────────
+     Изходно състояние = „скрито“. Активният панел плавно се изгражда, като всеки елемент има собствено закъснение.
+     Закъсненията са калкулирани от --d (старта на историята) и --k (1 при представянето, по-малко при превключване). */
+  .occ-js .occ-pol-in, .occ-js .occ-note, .occ-js .occ-btn, .occ-js .occ-star, .occ-js .occ-w, .occ-js .occ-pin, .occ-js .occ-clip,
+  .occ-js .occ-sign-t, .occ-js .occ-gloss, .occ-js .occ-sign path {
+    transition: opacity .22s ease, transform .22s ease, stroke-dashoffset .22s ease; }
+  .occ-js .occ-pol-in { opacity: 0; transform: translateY(5.5em) rotate(-9deg) scale(.95); }
+  .occ-js .occ-story--b .occ-pol-in { transform: translate(5em, 2em) rotate(9deg) scale(.95); }
+  .occ-js .occ-note { opacity: 0; transform: perspective(70em) translateX(-2.4em) rotateY(-84deg); }
+  .occ-js .occ-notewrap::before { opacity: 0; transition: opacity .22s ease; }
+  .occ-js .occ-pin { opacity: 0; transform: scale(0) translateY(-.8em); }
+  .occ-js .occ-clip { opacity: 0; transform: translateY(-1.6em); }
+  .occ-js .occ-star { opacity: 0; transform: scale(0) rotate(-40deg); }
+  .occ-js .occ-w { display: inline-block; opacity: 0; transform: translateY(.3em); }
+  .occ-js .occ-sign-t { opacity: 0; transform: translateY(.2em); display: inline-block; }
+  .occ-js .occ-sign path { stroke-dashoffset: 100; }
+  .occ-js .occ-btn { opacity: 0; transform: translateY(1em); }
+
+  .occ-js .occ-panel[data-active="true"] .occ-pol-in {
+    opacity: 1; transform: none;
+    transition: opacity calc(.7s * var(--k)) ease var(--d), transform calc(1.05s * var(--k)) cubic-bezier(.2,.85,.25,1) var(--d); }
+  .occ-js .occ-panel[data-active="true"] .occ-pin--pol {
+    opacity: 1; transform: none;
+    transition: opacity .2s ease calc(var(--d) + .7s * var(--k)), transform .5s cubic-bezier(.3,1.7,.5,1) calc(var(--d) + .7s * var(--k)); }
+  .occ-js .occ-panel[data-active="true"] .occ-gloss {
+    transform: translateX(130%);
+    transition: transform calc(1.3s * var(--k)) ease calc(var(--d) + 1.05s * var(--k)); }
+  .occ-js .occ-panel[data-active="true"] .occ-notewrap::before { opacity: 1; transition: opacity calc(.6s * var(--k)) ease calc(var(--d) + .3s * var(--k)); }
+  .occ-js .occ-panel[data-active="true"] .occ-note {
+    opacity: 1; transform: perspective(70em) rotateY(0deg);
+    transition: opacity calc(.5s * var(--k)) ease calc(var(--d) + .55s * var(--k)), transform calc(1s * var(--k)) cubic-bezier(.2,.8,.2,1) calc(var(--d) + .55s * var(--k)); }
+  .occ-js .occ-panel[data-active="true"] .occ-clip,
+  .occ-js .occ-panel[data-active="true"] .occ-pin--note {
+    opacity: 1; transform: none;
+    transition: opacity .25s ease calc(var(--d) + 1.2s * var(--k)), transform .55s cubic-bezier(.3,1.5,.5,1) calc(var(--d) + 1.2s * var(--k)); }
+  .occ-js .occ-panel[data-active="true"] .occ-star {
+    opacity: 1; transform: none;
+    transition: opacity .25s ease var(--sd), transform .5s cubic-bezier(.3,1.7,.5,1) var(--sd); }
+  .occ-js .occ-star:nth-child(1) { --sd: calc(var(--d) + 1.05s * var(--k)); }
+  .occ-js .occ-star:nth-child(2) { --sd: calc(var(--d) + 1.13s * var(--k)); }
+  .occ-js .occ-star:nth-child(3) { --sd: calc(var(--d) + 1.21s * var(--k)); }
+  .occ-js .occ-star:nth-child(4) { --sd: calc(var(--d) + 1.29s * var(--k)); }
+  .occ-js .occ-star:nth-child(5) { --sd: calc(var(--d) + 1.37s * var(--k)); }
+  /* „Ръкописен“ ефект: думите излизат една по една, подписът се подчертава накрая */
+  .occ-js .occ-panel[data-active="true"] .occ-w {
+    opacity: 1; transform: none;
+    transition: opacity .45s ease calc(var(--d) + (1.3s + var(--wi, 0) * .045s) * var(--k)),
+                transform .45s ease calc(var(--d) + (1.3s + var(--wi, 0) * .045s) * var(--k)); }
+  .occ-js .occ-panel[data-active="true"] .occ-sign-t {
+    opacity: 1; transform: none;
+    transition: opacity .5s ease calc(var(--d) + 2.15s * var(--k)), transform .5s ease calc(var(--d) + 2.15s * var(--k)); }
+  .occ-js .occ-panel[data-active="true"] .occ-sign path {
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset calc(.9s * var(--k)) ease calc(var(--d) + 2.35s * var(--k)); }
+  .occ-js .occ-panel[data-active="true"] .occ-btn {
+    opacity: 1; transform: none;
+    transition: opacity .6s ease calc(var(--d) + 2.4s * var(--k)), transform .7s cubic-bezier(.2,.8,.2,1) calc(var(--d) + 2.4s * var(--k)),
+                background-color .3s, box-shadow .3s; }
+  .occ-js .occ-panel[data-active="true"] .occ-btn:hover { transform: translateY(-2px); transition-delay: 0s; }
+
+  /* Намалено движение: всичко е видимо веднага, без анимации */
+  @media (prefers-reduced-motion: reduce) {
+    .occ *, .occ *::before, .occ *::after { animation: none !important; transition: none !important; }
+    .occ-fl, .occ-sp { display: none; }
+    .occ-js .occ-sign path { stroke-dashoffset: 0; }
+  }
+</style>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-occ]');
+  if (root) {
+    root.classList.add('occ-js');
+    const tabs = Array.from(root.querySelectorAll<HTMLButtonElement>('[role="tab"]'));
+    const panels = Array.from(root.querySelectorAll<HTMLElement>('[role="tabpanel"]'));
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // индекс на думата за каскадното „изписване“ (CSSOM, не inline style → съвместимо със строгия CSP)
+    root.querySelectorAll<HTMLElement>('.occ-quote').forEach((q) =>
+      q.querySelectorAll<HTMLElement>('.occ-w').forEach((w, i) => w.style.setProperty('--wi', String(i))));
+
+    let opened = false;
+    let hoverTimer = 0;
+    const select = (i: number) => {
+      tabs.forEach((t, j) => { const on = j === i; t.dataset.active = String(on); t.setAttribute('aria-selected', String(on)); t.tabIndex = on ? 0 : -1; });
+      panels.forEach((p, j) => { p.dataset.active = String(j === i); });
+    };
+    const open = (i: number) => {
+      if (!opened) {
+        opened = true;
+        root.dataset.open = 'true';
+        window.setTimeout(() => root.classList.add('occ-ready'), reduce ? 0 : 4800);   // след интрото превключването е по-бързо
+      }
+      select(i);
+    };
+
+    tabs.forEach((t, i) => {
+      t.addEventListener('click', () => { window.clearTimeout(hoverTimer); open(i); });
+      t.addEventListener('pointerenter', (e) => {
+        if (e.pointerType !== 'mouse') return;
+        window.clearTimeout(hoverTimer);
+        hoverTimer = window.setTimeout(() => open(i), 90);        // малко „намерение“, за да не мига при прекосяване с мишката
+      });
+      t.addEventListener('pointerleave', () => window.clearTimeout(hoverTimer));
+      t.addEventListener('keydown', (e) => {
+        const k = e.key;
+        const next = k === 'ArrowRight' ? (i + 1) % tabs.length : k === 'ArrowLeft' ? (i - 1 + tabs.length) % tabs.length
+          : k === 'Home' ? 0 : k === 'End' ? tabs.length - 1 : -1;
+        if (next < 0) return;
+        e.preventDefault(); open(next); tabs[next].focus();
+      });
+    });
+
+    // Представянето се пуска веднъж – когато секцията се покаже на екрана (като при медальона).
+    const io = new IntersectionObserver((entries) => {
+      if (entries.some((en) => en.isIntersecting)) {
+        io.disconnect();
+        window.setTimeout(() => open(0), reduce ? 0 : 450);
+      }
+    }, { threshold: 0.4 });
+    io.observe(root);
+  }
+</script>
